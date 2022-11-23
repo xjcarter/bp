@@ -314,6 +314,19 @@ class LastLow(Indicator):
         else:
             return None
 
+class LastHigh(Indicator):
+    def __init__(self, last_len, derived_len=50):
+        super().__init__(last_len, derived_len)
+        self.last_len = last_len
+
+    def _calculate(self):
+        if len(self.history) >= self.history_len:
+            highest = max(list(self.history)[-self.last_len:])
+            self.derived.append(highest)
+            return highest 
+        else:
+            return None
+
 
 class MACD(Indicator):
     def __init__(self, long_len, short_len, signal_len, warmup=10, history_len=50, derived_len=50):
